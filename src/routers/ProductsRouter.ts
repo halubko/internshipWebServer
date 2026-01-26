@@ -5,9 +5,11 @@ const ProductsRouter = Router();
 
 ProductsRouter.get("/", ProductsControllers.getAllProducts);
 
-ProductsRouter.get("/:id", ProductsControllers.getProductById);
+ProductsRouter.get("/search", ProductsControllers.searchProductsByTitle);
 
 ProductsRouter.post("/add", ProductsControllers.createProduct);
+
+ProductsRouter.get("/:id", ProductsControllers.getProductById);
 
 ProductsRouter.delete("/:id", ProductsControllers.deleteProduct);
 

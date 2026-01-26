@@ -18,6 +18,20 @@ class ProductsServices {
       return product;
    }
 
+   static async searchProductsByTitle(skip: number, limit: number, title: string) {
+      const products: Product[] = await prisma.product.findMany({
+         skip: skip || undefined,
+         take: limit || undefined,
+         where: {
+            title: {
+               contains: title,
+               mode: "insensitive",
+            },
+         },
+      });
+      return formatArrayResponse<Product>("products", products, Number(skip), Number(limit));
+   }
+
    static async createProduct(data: Product) {
       const newProduct = await prisma.product.create({ data });
       return newProduct;

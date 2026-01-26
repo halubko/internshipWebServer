@@ -19,6 +19,21 @@ class ProductsControllers {
       return res.status(200).json(product);
    }
 
+   static async searchProductsByTitle(req: Request, res: Response) {
+      const { skip, limit, q } = req.query;
+
+      if (!q) {
+         return res.status(400).json({ message: "Title query parameter is required" });
+      }
+
+      const products = await ProductsServices.searchProductsByTitle(
+         Number(skip),
+         Number(limit),
+         String(q)
+      );
+      return res.status(200).json(products);
+   }
+
    static async createProduct(req: Request, res: Response) {
       const { title, description, price } = req.body;
       //TODO update 400 error handling
