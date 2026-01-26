@@ -18,6 +18,7 @@ model Product {
   brand       String
   rating      Float    @default(0)
   images      String[]
+  thumbnail   String
   reviews     Review[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
