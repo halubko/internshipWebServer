@@ -1,10 +1,14 @@
 import { prisma } from "@/lib/prisma";
 import type { Product } from "@/prismaGenerated/client";
+import { formatArrayResponse } from "@/utils/formatters";
 
 class ProductsServices {
-   static async getAllProducts() {
-      const products: Product[] = await prisma.product.findMany();
-      return products;
+   static async getAllProducts(skip: number, limit: number) {
+      const products: Product[] = await prisma.product.findMany({
+         skip: skip || undefined,
+         take: limit || undefined,
+      });
+      return formatArrayResponse<Product>("products", products, Number(skip), Number(limit));
    }
 
    static async getProductById(id: number) {

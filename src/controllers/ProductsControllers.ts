@@ -3,7 +3,8 @@ import type { Request, Response } from "express";
 
 class ProductsControllers {
    static async getAllProducts(req: Request, res: Response) {
-      const products = await ProductsServices.getAllProducts();
+      const { skip, limit } = req.query;
+      const products = await ProductsServices.getAllProducts(Number(skip), Number(limit));
       return res.status(200).json(products);
    }
 
