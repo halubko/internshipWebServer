@@ -5,7 +5,7 @@ export const formatArrayResponse = <T>(
    limit: number = 0
 ) => {
    return {
-      dataName: data,
+      [dataName]: data,
       total: data.length,
       skip: skip || 0,
       limit: limit || 0,
