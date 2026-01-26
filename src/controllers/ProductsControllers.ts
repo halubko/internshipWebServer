@@ -10,12 +10,13 @@ class ProductsControllers {
 
    static async getProductById(req: Request, res: Response) {
       const { id } = req.params;
+      const numberId = Number(id);
 
-      if (!id) {
+      if (!id || isNaN(numberId)) {
          return res.status(400).json({ message: "Product ID is required" });
       }
 
-      const product = await ProductsServices.getProductById(Number(id));
+      const product = await ProductsServices.getProductById(numberId);
       return res.status(200).json(product);
    }
 
@@ -48,12 +49,13 @@ class ProductsControllers {
 
    static async deleteProduct(req: Request, res: Response) {
       const { id } = req.params;
+      const numberId = Number(id);
 
-      if (!id) {
+      if (!id || isNaN(numberId)) {
          return res.status(400).json({ message: "Product ID is required" });
       }
 
-      const deletedProduct = await ProductsServices.deleteProduct(Number(id));
+      const deletedProduct = await ProductsServices.deleteProduct(numberId);
       return res.status(200).json(deletedProduct);
    }
 }
