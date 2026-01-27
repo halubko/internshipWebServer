@@ -10,7 +10,6 @@ class ProductsServices {
       order: string,
       sortBy: string
    ) {
-      console.log(order, sortBy);
       const products: Product[] = await prisma.product.findMany({
          skip: skip || undefined,
          take: limit || undefined,
