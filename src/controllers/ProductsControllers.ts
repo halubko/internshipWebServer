@@ -4,8 +4,12 @@ import type { Request, Response } from "express";
 
 class ProductsControllers {
    static async getAllProducts(req: Request, res: Response) {
-      const { skip, limit } = req.query;
-      const products = await ProductsServices.getAllProducts(Number(skip), Number(limit));
+      const { skip, limit, order } = req.query;
+      const products = await ProductsServices.getAllProducts(
+         Number(skip),
+         Number(limit),
+         String(order)
+      );
       return res.status(200).json(products);
    }
 
@@ -22,7 +26,7 @@ class ProductsControllers {
    }
 
    static async searchProductsByTitle(req: Request, res: Response) {
-      const { skip, limit, q } = req.query;
+      const { skip, limit, q, order } = req.query;
 
       if (!q) {
          return res.status(400).json({ message: "Title query parameter is required" });
@@ -31,7 +35,8 @@ class ProductsControllers {
       const products = await ProductsServices.searchProductsByTitle(
          Number(skip),
          Number(limit),
-         String(q)
+         String(q),
+         String(order)
       );
       return res.status(200).json(products);
    }

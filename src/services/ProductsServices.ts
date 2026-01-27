@@ -1,12 +1,16 @@
 import { prisma } from "@/lib/prisma";
 import type { Product } from "@/prismaGenerated/client";
 import { formatArrayResponse } from "@/utils/formatters";
+import { orderByIsValid } from "@/utils/typeGuards";
 
 class ProductsServices {
-   static async getAllProducts(skip: number, limit: number) {
+   static async getAllProducts(skip: number, limit: number, order: string) {
       const products: Product[] = await prisma.product.findMany({
          skip: skip || undefined,
          take: limit || undefined,
+         orderBy: {
+            price: orderByIsValid(order) ? order : undefined,
+         },
       });
       return formatArrayResponse<Product>("products", products, Number(skip), Number(limit));
    }
@@ -18,7 +22,7 @@ class ProductsServices {
       return product;
    }
 
-   static async searchProductsByTitle(skip: number, limit: number, title: string) {
+   static async searchProductsByTitle(skip: number, limit: number, title: string, orderBy: string) {
       const products: Product[] = await prisma.product.findMany({
          skip: skip || undefined,
          take: limit || undefined,
@@ -27,6 +31,9 @@ class ProductsServices {
                contains: title,
                mode: "insensitive",
             },
+         },
+         orderBy: {
+            price: orderByIsValid(orderBy) ? orderBy : undefined,
          },
       });
       return formatArrayResponse<Product>("products", products, Number(skip), Number(limit));
