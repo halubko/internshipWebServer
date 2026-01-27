@@ -1,22 +1,23 @@
 import ProductsControllers from "@/controllers/ProductsControllers";
+import asyncWrapper from "@/utils/asyncWrapper";
 import { Router } from "express";
 
 const ProductsRouter = Router();
 
 ProductsRouter.get("/", ProductsControllers.getAllProducts);
 
-ProductsRouter.get("/search", ProductsControllers.searchProductsByTitle);
+ProductsRouter.get("/search", asyncWrapper(ProductsControllers.searchProductsByTitle));
 
-ProductsRouter.get("/category/:category", ProductsControllers.getProductsByCategory);
+ProductsRouter.get("/category/:category", asyncWrapper(ProductsControllers.getProductsByCategory));
 
-ProductsRouter.get("/categories", ProductsControllers.getProductsCategories);
+ProductsRouter.get("/categories", asyncWrapper(ProductsControllers.getProductsCategories));
 
-ProductsRouter.get("/category-list", ProductsControllers.getProductsCategoryList);
+ProductsRouter.get("/category-list", asyncWrapper(ProductsControllers.getProductsCategoryList));
 
-ProductsRouter.post("/add", ProductsControllers.createProduct);
+ProductsRouter.post("/add", asyncWrapper(ProductsControllers.createProduct));
 
-ProductsRouter.get("/:id", ProductsControllers.getProductById);
+ProductsRouter.get("/:id", asyncWrapper(ProductsControllers.getProductById));
 
-ProductsRouter.delete("/:id", ProductsControllers.deleteProduct);
+ProductsRouter.delete("/:id", asyncWrapper(ProductsControllers.deleteProduct));
 
 export default ProductsRouter;
