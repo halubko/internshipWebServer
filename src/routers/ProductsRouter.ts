@@ -4,7 +4,7 @@ import { Router } from "express";
 
 const ProductsRouter = Router();
 
-ProductsRouter.get("/", ProductsControllers.getAllProducts);
+ProductsRouter.get("/", asyncWrapper(ProductsControllers.getAllProducts));
 
 ProductsRouter.get("/search", asyncWrapper(ProductsControllers.searchProductsByTitle));
 
