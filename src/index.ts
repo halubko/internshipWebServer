@@ -2,13 +2,11 @@ import express from "express";
 import { PORT } from "@/constants/port";
 import ProductsRouter from "./routers/ProductsRouter";
 import cors from "cors";
-import { paramsMiddleware } from "./middlewares/paramsMiddleware";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(paramsMiddleware);
 
 app.use("/products", ProductsRouter);
 
