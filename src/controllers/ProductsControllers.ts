@@ -1,14 +1,16 @@
-import { categories, categoryList } from "@/constants/constants";
+import { CATEGORIES } from "@/constants/categories";
+import { CATEGORY_LIST } from "@/constants/categoryList";
 import ProductsServices from "@/services/ProductsServices";
 import type { Request, Response } from "express";
 
 class ProductsControllers {
    static async getAllProducts(req: Request, res: Response) {
-      const { skip, limit, order } = req.query;
+      const { skip, limit, order, sortBy } = req.query;
       const products = await ProductsServices.getAllProducts(
          Number(skip),
          Number(limit),
-         String(order)
+         String(order),
+         String(sortBy)
       );
       return res.status(200).json(products);
    }
@@ -26,7 +28,7 @@ class ProductsControllers {
    }
 
    static async searchProductsByTitle(req: Request, res: Response) {
-      const { skip, limit, q, order } = req.query;
+      const { skip, limit, q, order, sortBy } = req.query;
 
       if (!q) {
          return res.status(400).json({ message: "Title query parameter is required" });
@@ -36,17 +38,18 @@ class ProductsControllers {
          Number(skip),
          Number(limit),
          String(q),
-         String(order)
+         String(order),
+         String(sortBy)
       );
       return res.status(200).json(products);
    }
 
    static async getProductsCategories(_req: Request, res: Response) {
-      return res.status(200).json(categories);
+      return res.status(200).json(CATEGORIES);
    }
 
    static async getProductsCategoryList(_req: Request, res: Response) {
-      return res.status(200).json(categoryList);
+      return res.status(200).json(CATEGORY_LIST);
    }
 
    static async createProduct(req: Request, res: Response) {

@@ -1,15 +1,21 @@
 import { prisma } from "@/lib/prisma";
 import type { Product } from "@/prismaGenerated/client";
 import { formatArrayResponse } from "@/utils/formatters";
-import { orderByIsValid } from "@/utils/typeGuards";
+import { orderByIsValid, sortByIsValid } from "@/utils/typeGuards";
 
 class ProductsServices {
-   static async getAllProducts(skip: number, limit: number, order: string) {
+   static async getAllProducts(
+      skip: number | undefined,
+      limit: number | undefined,
+      order: string,
+      sortBy: string
+   ) {
+      console.log(order, sortBy);
       const products: Product[] = await prisma.product.findMany({
          skip: skip || undefined,
          take: limit || undefined,
          orderBy: {
-            price: orderByIsValid(order) ? order : undefined,
+            [sortByIsValid(sortBy) ? sortBy : "price"]: orderByIsValid(order) ? order : undefined,
          },
       });
       return formatArrayResponse<Product>("products", products, Number(skip), Number(limit));
@@ -22,10 +28,16 @@ class ProductsServices {
       return product;
    }
 
-   static async searchProductsByTitle(skip: number, limit: number, title: string, orderBy: string) {
+   static async searchProductsByTitle(
+      skip: number | undefined,
+      limit: number | undefined,
+      title: string,
+      order: string,
+      sortBy: string
+   ) {
       const products: Product[] = await prisma.product.findMany({
-         skip: skip || undefined,
-         take: limit || undefined,
+         skip,
+         take: limit,
          where: {
             title: {
                contains: title,
@@ -33,7 +45,7 @@ class ProductsServices {
             },
          },
          orderBy: {
-            price: orderByIsValid(orderBy) ? orderBy : undefined,
+            [sortByIsValid(sortBy) ? sortBy : "price"]: orderByIsValid(order) ? order : undefined,
          },
       });
       return formatArrayResponse<Product>("products", products, Number(skip), Number(limit));
