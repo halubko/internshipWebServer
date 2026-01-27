@@ -1,6 +1,7 @@
 import { CATEGORIES } from "@/constants/categories";
 import { CATEGORY_LIST } from "@/constants/categoryList";
 import ProductsServices from "@/services/ProductsServices";
+import { createProductValidation } from "@/validation/createProductValidation";
 import type { Request, Response } from "express";
 
 class ProductsControllers {
@@ -71,10 +72,12 @@ class ProductsControllers {
    }
 
    static async createProduct(req: Request, res: Response) {
-      const { title, price } = req.body;
-      //TODO update 400 error handling
-      if (!title || !price) {
-         return res.status(400).json({ message: "Title and price are required" });
+      const validation = createProductValidation.safeParse(req.body);
+
+      if (!validation.success) {
+         return res
+            .status(400)
+            .json({ message: "Validation failed", errors: validation.error.flatten().fieldErrors });
       }
 
       const newProduct = await ProductsServices.createProduct(req.body);
