@@ -1,3 +1,4 @@
+import { categories, categoryList } from "@/constants/constants";
 import ProductsServices from "@/services/ProductsServices";
 import type { Request, Response } from "express";
 
@@ -35,11 +36,19 @@ class ProductsControllers {
       return res.status(200).json(products);
    }
 
+   static async getProductsCategories(_req: Request, res: Response) {
+      return res.status(200).json(categories);
+   }
+
+   static async getProductsCategoryList(_req: Request, res: Response) {
+      return res.status(200).json(categoryList);
+   }
+
    static async createProduct(req: Request, res: Response) {
-      const { title, description, price } = req.body;
+      const { title, price } = req.body;
       //TODO update 400 error handling
-      if (!title || !description || !price) {
-         return res.status(400).json({ message: "Title, description and price are required" });
+      if (!title || !price) {
+         return res.status(400).json({ message: "Title and price are required" });
       }
 
       const newProduct = await ProductsServices.createProduct(req.body);
