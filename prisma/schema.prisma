@@ -13,10 +13,10 @@ model Product {
   description String?
   price       Float
   category    String
-  discountPercentage Float    @default(0)
+  discountPercentage Float?    @default(0)
   stock       Int      @default(0)
   brand       String
-  rating      Float    @default(0)
+  rating      Float?    @default(0)
   images      String[]
   thumbnail   String
   reviews     Review[]
