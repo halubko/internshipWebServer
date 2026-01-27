@@ -44,6 +44,24 @@ class ProductsControllers {
       return res.status(200).json(products);
    }
 
+   static async getProductsByCategory(req: Request, res: Response) {
+      const { skip, limit, order, sortBy } = req.query;
+      const { category } = req.params;
+
+      if (!category) {
+         return res.status(400).json({ message: "Category query parameter is required" });
+      }
+
+      const products = await ProductsServices.getProductsByCategory(
+         Number(skip),
+         Number(limit),
+         String(category),
+         String(order),
+         String(sortBy)
+      );
+      return res.status(200).json(products);
+   }
+
    static async getProductsCategories(_req: Request, res: Response) {
       return res.status(200).json(CATEGORIES);
    }

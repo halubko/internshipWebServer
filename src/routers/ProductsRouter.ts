@@ -7,6 +7,8 @@ ProductsRouter.get("/", ProductsControllers.getAllProducts);
 
 ProductsRouter.get("/search", ProductsControllers.searchProductsByTitle);
 
+ProductsRouter.get("/category/:category", ProductsControllers.getProductsByCategory);
+
 ProductsRouter.get("/categories", ProductsControllers.getProductsCategories);
 
 ProductsRouter.get("/category-list", ProductsControllers.getProductsCategoryList);

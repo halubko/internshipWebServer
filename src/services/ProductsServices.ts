@@ -50,6 +50,29 @@ class ProductsServices {
       return formatArrayResponse<Product>("products", products, Number(skip), Number(limit));
    }
 
+   static async getProductsByCategory(
+      skip: number | undefined,
+      limit: number | undefined,
+      category: string,
+      order: string,
+      sortBy: string
+   ) {
+      const products: Product[] = await prisma.product.findMany({
+         skip,
+         take: limit,
+         where: {
+            category: {
+               contains: category,
+               mode: "insensitive",
+            },
+         },
+         orderBy: {
+            [sortByIsValid(sortBy) ? sortBy : "price"]: orderByIsValid(order) ? order : undefined,
+         },
+      });
+      return formatArrayResponse<Product>("products", products, Number(skip), Number(limit));
+   }
+
    static async createProduct(data: Product) {
       const newProduct = await prisma.product.create({ data });
       return newProduct;
