@@ -1,5 +1,5 @@
 import express from "express";
-import { PORT } from "@/constants/constants";
+import { PORT } from "@/constants/port";
 import ProductsRouter from "./routers/ProductsRouter";
 import cors from "cors";
 import { paramsMiddleware } from "./middlewares/paramsMiddleware";

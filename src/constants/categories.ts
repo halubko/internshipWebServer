@@ -1,8 +1,4 @@
-import "dotenv/config";
-
-export const PORT = process.env.PORT || 3000;
-
-export const categories = [
+export const CATEGORIES = [
    {
       slug: "beauty",
       name: "Beauty",
@@ -123,31 +119,4 @@ export const categories = [
       name: "Womens Watches",
       url: "https://dummyjson.com/products/category/womens-watches",
    },
-];
-
-export const categoryList = [
-   "beauty",
-   "fragrances",
-   "furniture",
-   "groceries",
-   "home-decoration",
-   "kitchen-accessories",
-   "laptops",
-   "mens-shirts",
-   "mens-shoes",
-   "mens-watches",
-   "mobile-accessories",
-   "motorcycle",
-   "skin-care",
-   "smartphones",
-   "sports-accessories",
-   "sunglasses",
-   "tablets",
-   "tops",
-   "vehicle",
-   "womens-bags",
-   "womens-dresses",
-   "womens-jewellery",
-   "womens-shoes",
-   "womens-watches",
 ];
