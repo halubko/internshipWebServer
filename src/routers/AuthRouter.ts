@@ -6,4 +6,6 @@ const AuthRouter = Router();
 
 AuthRouter.post("/login", asyncWrapper(AuthController.login));
 
+AuthRouter.get("/me", asyncWrapper(AuthController.me));
+
 export default AuthRouter;

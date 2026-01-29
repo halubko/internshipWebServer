@@ -1,6 +1,6 @@
 import AuthServices from "@/services/AuthServices";
 import ApiError from "@/utils/ApiError";
-import { generateAccessToken } from "@/utils/jwt";
+import { decodeAccessToken, generateAccessToken } from "@/utils/jwt";
 import loginValidation from "@/validation/loginValidation";
 import bcryprt from "bcrypt";
 import type { NextFunction, Request, Response } from "express";
@@ -36,7 +36,7 @@ class AuthController {
       const refreshToken = generateAccessToken(userData, "7d");
 
       res.cookie("accessToken", accessToken, {
-         maxAge: 60 * 60 * 1000,
+         maxAge: (expiresInMins ? expiresInMins : 60) * 1000,
          httpOnly: true,
          secure: false,
          sameSite: "strict",
@@ -50,6 +50,24 @@ class AuthController {
       });
 
       return res.status(200).json({ ...userData, accessToken, refreshToken });
+   }
+
+   static async me(req: Request, res: Response, next: NextFunction) {
+      const authHeader = req.headers.authorization;
+
+      if (!authHeader) {
+         return next(new ApiError(401, "Authorization header is missing"));
+      }
+
+      const token = authHeader.split(" ")[1];
+
+      if (!token) {
+         return next(new ApiError(401, "Token is missing"));
+      }
+
+      const decoded = decodeAccessToken(token);
+
+      return res.status(200).json(decoded);
    }
 }
 
