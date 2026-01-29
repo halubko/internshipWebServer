@@ -18,17 +18,21 @@ export function decodeAccessToken(token: string) {
       throw new Error("JWT_ACCESS_SECRET is not defined");
    }
 
-   const decoded = jwt.verify(token, JWT_ACCESS_SECRET);
-   return decoded;
+   try {
+      const decoded = jwt.verify(token, JWT_ACCESS_SECRET);
+      return decoded;
+   } catch (_error) {
+      return "Invalid access token";
+   }
 }
 
-export function generateRefreshToken(user: Omit<User, "password">, expiresIn: ExpiresInType) {
+export function generateRefreshToken(user: Omit<User, "password">) {
    if (!JWT_REFRESH_SECRET) {
       throw new Error("JWT_REFRESH_SECRET is not defined");
    }
 
    return jwt.sign({ ...user }, JWT_REFRESH_SECRET, {
-      expiresIn: expiresIn || "7d",
+      expiresIn: "7d",
    });
 }
 
@@ -37,6 +41,10 @@ export function decodeRefreshToken(token: string) {
       throw new Error("JWT_REFRESH_SECRET is not defined");
    }
 
-   const decoded = jwt.verify(token, JWT_REFRESH_SECRET);
-   return decoded;
+   try {
+      const decoded = jwt.verify(token, JWT_REFRESH_SECRET);
+      return decoded;
+   } catch (_error) {
+      return "Invalid refresh token";
+   }
 }
