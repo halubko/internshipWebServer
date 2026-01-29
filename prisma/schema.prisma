@@ -8,30 +8,46 @@ datasource db {
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  price       Float
-  category    String
-  discountPercentage Float?    @default(0)
-  stock       Int      @default(0)
-  brand       String
-  rating      Float?    @default(0)
-  images      String[]
-  thumbnail   String
-  reviews     Review[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                 Int      @id @default(autoincrement())
+  title              String
+  description        String?
+  price              Float
+  category           String
+  discountPercentage Float?   @default(0)
+  stock              Int      @default(0)
+  brand              String
+  rating             Float?   @default(0)
+  images             String[]
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  thumbnail          String
+  reviews            Review[]
 }
 
 model Review {
-  id        Int      @id @default(autoincrement())
-  product   Product  @relation(fields: [productId], references: [id])
-  productId Int
-  comment   String
-  rating    Float
-  reviewerName String
+  id            Int      @id @default(autoincrement())
+  productId     Int
+  comment       String
+  rating        Float
+  reviewerName  String
   reviewerEmail String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  product       Product  @relation(fields: [productId], references: [id])
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  username  String  @unique
+  password String
+  email     String  @unique
+  firstName String?
+  lastName  String?
+  gender    Gender
+  image     String
+}
+
+enum Gender {
+  male
+  female
 }
