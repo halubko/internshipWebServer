@@ -3,13 +3,21 @@ import ApiError from "@/utils/ApiError";
 import { generateAccessToken } from "@/utils/jwt";
 import type { Request, Response, NextFunction } from "express";
 import bcryprt from "bcrypt";
+import loginValidation from "@/validation/loginValidation";
 
 class AuthController {
    static async login(req: Request, res: Response, next: NextFunction) {
       const { username, password, expiresInMins } = req.body;
+      const validation = loginValidation.safeParse(req.body);
 
-      if (!username || !password) {
-         return next(new ApiError(400, "Request missing email or password"));
+      if (validation.error) {
+         return next(
+            new ApiError(
+               400,
+               "Missing required login fields",
+               validation.error.flatten().fieldErrors
+            )
+         );
       }
 
       const user = await AuthServices.login(username);
