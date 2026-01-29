@@ -8,7 +8,6 @@ class AuthServices {
          },
       });
 
-      console.log("New user created:", user);
       return user;
    }
 }
