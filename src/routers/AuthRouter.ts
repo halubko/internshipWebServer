@@ -8,4 +8,6 @@ AuthRouter.post("/login", asyncWrapper(AuthController.login));
 
 AuthRouter.get("/me", asyncWrapper(AuthController.me));
 
+AuthRouter.post("/refresh", asyncWrapper(AuthController.refresh));
+
 export default AuthRouter;
