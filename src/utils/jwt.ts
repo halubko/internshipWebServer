@@ -1,9 +1,9 @@
 import { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } from "@/constants/constants";
 import type { User } from "@/prismaGenerated/client";
-import type { ExpiresIn } from "@/types/expiresInType";
+import type { ExpiresInType } from "@/types/expiresInType";
 import jwt from "jsonwebtoken";
 
-export function generateAccessToken(user: Omit<User, "password">, expiresIn: ExpiresIn) {
+export function generateAccessToken(user: Omit<User, "password">, expiresIn: ExpiresInType) {
    if (!JWT_ACCESS_SECRET) {
       throw new Error("JWT_ACCESS_SECRET is not defined");
    }
@@ -22,7 +22,7 @@ export function decodeAccessToken(token: string) {
    return decoded;
 }
 
-export function generateRefreshToken(user: Omit<User, "password">, expiresIn: ExpiresIn) {
+export function generateRefreshToken(user: Omit<User, "password">, expiresIn: ExpiresInType) {
    if (!JWT_REFRESH_SECRET) {
       throw new Error("JWT_REFRESH_SECRET is not defined");
    }
