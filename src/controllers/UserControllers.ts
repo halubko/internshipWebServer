@@ -22,7 +22,7 @@ class UserControllers {
       const newUser = await UserServices.addUser(req.body);
 
       const accessToken = generateAccessToken(newUser, expiresIn && `${expiresIn}m`);
-      const refreshToken = generateRefreshToken(newUser, "7d");
+      const refreshToken = generateRefreshToken(newUser);
 
       res.cookie("accessToken", accessToken, {
          maxAge: 60 * 60 * 1000,
