@@ -13,7 +13,7 @@ class UserControllers {
 
       const newUser = await UserServices.addUser(req.body);
 
-      const accessToken = generateAccessToken(newUser, `${expiresIn}m`);
+      const accessToken = generateAccessToken(newUser, expiresIn && `${expiresIn}m`);
       const refreshToken = generateRefreshToken(newUser, "7d");
 
       return res.status(201).json({ ...newUser, accessToken, refreshToken });
