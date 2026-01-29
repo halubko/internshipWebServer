@@ -24,6 +24,20 @@ class UserControllers {
       const accessToken = generateAccessToken(newUser, expiresIn && `${expiresIn}m`);
       const refreshToken = generateRefreshToken(newUser, "7d");
 
+      res.cookie("accessToken", accessToken, {
+         maxAge: 60 * 60 * 1000,
+         httpOnly: true,
+         secure: false,
+         sameSite: "strict",
+      });
+
+      res.cookie("refreshToken", refreshToken, {
+         maxAge: 7 * 24 * 60 * 60 * 1000,
+         httpOnly: true,
+         secure: false,
+         sameSite: "strict",
+      });
+
       return res.status(201).json({ ...newUser, accessToken, refreshToken });
    }
 }

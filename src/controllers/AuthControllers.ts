@@ -1,9 +1,9 @@
 import AuthServices from "@/services/AuthServices";
 import ApiError from "@/utils/ApiError";
 import { generateAccessToken } from "@/utils/jwt";
-import type { Request, Response, NextFunction } from "express";
-import bcryprt from "bcrypt";
 import loginValidation from "@/validation/loginValidation";
+import bcryprt from "bcrypt";
+import type { NextFunction, Request, Response } from "express";
 
 class AuthController {
    static async login(req: Request, res: Response, next: NextFunction) {
@@ -34,6 +34,20 @@ class AuthController {
 
       const accessToken = generateAccessToken(userData, expiresInMins && `${expiresInMins}m`);
       const refreshToken = generateAccessToken(userData, "7d");
+
+      res.cookie("accessToken", accessToken, {
+         maxAge: 60 * 60 * 1000,
+         httpOnly: true,
+         secure: false,
+         sameSite: "strict",
+      });
+
+      res.cookie("refreshToken", refreshToken, {
+         maxAge: 7 * 24 * 60 * 60 * 1000,
+         httpOnly: true,
+         secure: false,
+         sameSite: "strict",
+      });
 
       return res.status(200).json({ ...userData, accessToken, refreshToken });
    }

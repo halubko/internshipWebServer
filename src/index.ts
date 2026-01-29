@@ -5,11 +5,18 @@ import cors from "cors";
 import errorMiddleware from "./middlewares/errorMiddleware";
 import AuthRouter from "./routers/AuthRouter";
 import UserRouter from "./routers/UserRouter";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
-app.use(cors());
+app.use(
+   cors({
+      origin: "*",
+      credentials: true,
+   })
+);
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/products", ProductsRouter);
 app.use("/users", UserRouter);
